@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\noc;
 
+use App\Engineer;
 use App\Http\Controllers\Controller;
+use App\NocConsumer;
 use App\NocJob;
 use App\NocOngoingJob;
 use Illuminate\Http\Request;
@@ -18,7 +20,18 @@ class JobController extends Controller
     		return redirect('login')->with('error', 'Login First');
     	else
     	{  
-            return view('noc.newJobEntry')->with('consumer', null);
+            $engineers = Engineer::all();
+            $teams = DB::table('engineers')
+                        ->select('team as team')
+                        ->groupBy('team')
+                        ->get();
+            $consumers = NocConsumer::all();
+            return view('noc.newJobEntry', [
+                                                'consumer' => null,
+                                                'engineers' => $engineers,
+                                                'teams' => $teams,
+                                                'consumers' => $consumers
+                                           ]);
         }
     }
 
@@ -32,15 +45,26 @@ class JobController extends Controller
         	$consumer_type = $request->input('consumer_type');
         	$consumer_id = strtolower($request->input('consumer_id'));
 
-        	$consumer = DB::table('noc_consumers')
-        	            ->where([ ['name', $consumer_id],
-        	                      ['type', $consumer_type]
-        	                    ])->first();
-
+        	$consumer = NocConsumer::where([ 
+                                               ['name', $consumer_id],
+        	                                   ['type', $consumer_type]
+        	                               ])
+                                            ->first();
+            $engineers = Engineer::all();
+            $teams = DB::table('engineers')
+                        ->select('team as team')
+                        ->groupBy('team')
+                        ->get();
+            $consumers = NocConsumer::all();
         	if($consumer == null)
         	    return redirect('newJobEntry')->with('error', 'No customer found!');
         	else
-        	    return view('noc.newJobEntry')->with('consumer', $consumer);
+        	    return view('noc.newJobEntry',[
+                                                'consumer' => $consumer,
+                                                'engineers' => $engineers,
+                                                'teams' => $teams,
+                                                'consumers' => $consumers
+                                           ]);
         }	
     }
 
@@ -65,9 +89,12 @@ class JobController extends Controller
         	$generation_date_timestamp = $request->input('generation_date');
         	$case_reason = $request->input('case_reason');
         	$assign_job = $request->input('assign_job');
-        	$assign_to = $request->input('assign_to');
-        	$generated_by = $request->input('generated_by');
+        	$assign_to_engineer = $request->input('assign_to_engineer');
+        	$assign_to_team = $request->input('assign_to_team');
+            $generated_by = $request->input('generated_by');
         	$get_consumer_type = $request->input('get_consumer_type');
+            $assigned_to_level = $request->input('assigned_to_level');
+
 
         	$job = new NocOngoingJob;
         	$job->ticket = $ticket;
@@ -80,9 +107,13 @@ class JobController extends Controller
         	$job->contact_details = $contact_details;
         	$job->generation_date_timestamp = $generation_date_timestamp;
         	$job->case_reason = strtolower($case_reason);
-        	$job->assign_to = strtolower($assign_to);
+        	if($assign_to_engineer != null)
+                $job->assign_to = strtolower($assign_to_engineer);
+            else
+                $job->assign_to = strtolower($assign_to_team);
         	$job->generated_by  = strtolower($generated_by);
         	$job->consumer_type = strtolower($get_consumer_type);
+            $job->assigned_to_level = $assigned_to_level;
 
         	if($job->save())
         		return redirect('newJobEntry')->with('ticket', $ticket);
@@ -99,11 +130,48 @@ class JobController extends Controller
             return redirect('/login')->with('error', 'Login First');
         else
         {
+            $engineers = Engineer::all();
+            $teams = DB::table('engineers')
+                        ->select('team as team')
+                        ->groupBy('team')
+                        ->get();
             $jobs = NocOngoingJob::orderBy('created_at', 'dsc')->get();
-            return view('noc.listOnGoingJobs')->with('jobs', $jobs);
+            return view('noc.listOnGoingJobs',[
+                                                'engineers' => $engineers,
+                                                'teams' => $teams,
+                                                'jobs' => $jobs
+                                              ]);
+                                            
         }
     }
 
+    public function transferJob(Request $request)
+    {
+        if(Auth::guest())
+            redirect('/login')->with('error', 'Login First');
+        else
+        {
+            $ticket = $request->input('ticket');
+            $transfer_to_level = $request->input('transfer_to_level');
+            $assign_job = $request->input('assign_job');
+            $assign_to_engineer = $request->input('assign_to_engineer');
+            $assign_to_team = $request->input('assign_to_team');
+            $transferred_by = $request->input('transferred_by');
+
+            $job = NocOngoingJob::where('ticket', $ticket)->first();
+            $job->transferred_to_level = $transfer_to_level;
+            if($assign_to_engineer != null)
+                $job->transferred_to = strtolower($assign_to_engineer);
+            else
+                $job->transferred_to = strtolower($assign_to_team);
+            $job->transferred_by = $transferred_by;
+            if($job->save())
+                return redirect('/listOnGoingJobs')->with('success', 'Job transferred to '.ucwords($job->transferred_to));
+            else
+                return redirect('/listOnGoingJobs')->with('error', 'Something went wrong! Data could not be saved in database');
+
+        }
+    }
     //finised job
     public function finishedJob(Request $request)
     {
@@ -127,6 +195,10 @@ class JobController extends Controller
             $finishedJob->assign_to = $closeJob->assign_to;
             $finishedJob->generated_by = $closeJob->generated_by;
             $finishedJob->consumer_type = $closeJob->consumer_type;
+            $finishedJob->assigned_to_level = $closeJob->assigned_to_level;
+            $finishedJob->transferred_to_level = $closeJob->transferred_to_level;
+            $finishedJob->transferred_to = $closeJob->transferred_to;
+            $finishedJob->transferred_by = $closeJob->transferred_by;
             $finishedJob->close_date = $request->input('close_date');
             $finishedJob->total_time = $request->input('total_time');
             $finishedJob->trouble_description = $request->input('trouble_description');

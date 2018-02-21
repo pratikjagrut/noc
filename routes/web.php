@@ -49,78 +49,7 @@ Route::get('/addNewConsumer', 'noc\ConsumerController@index');
 Route::get('/setConsumer', 'noc\ConsumerController@setConsumer');
 Route::post('/registerNewConsumer', 'noc\ConsumerController@registerNewConsumer');
 Route::get('/listConsumer', 'noc\ConsumerController@listConsumer');
-
-//CC Department Routes
-Route::get('/extension', function () {
-    return view('customer_care.extension');
-});
-
-Route::get('/downArea', function () {
-    return view('customer_care.downArea');
-});
-
-Route::get('/refund', function () {
-    return view('customer_care.refund');
-});
-
-Route::get('/feasible', function () {
-    return view('customer_care.feasibleArea');
-});
-
-Route::resource('extension', 'cc\ExtensionController');
-Route::resource('downArea', 'cc\DownAreaController');
-Route::resource('feasibleArea', 'cc\FeasibleAreaController');
-Route::resource('refund', 'cc\RefundController');
-Route::resource('/extension', 'cc\ExtensionController');
-Route::resource('/downArea', 'cc\DownAreaController');
-Route::resource('/feasibleArea', 'cc\FeasibleAreaController');
-Route::resource('/refund', 'cc\RefundController');
-
-//HR Department Routes
-Route::resource('/stationery', 'hr\StationeryController');
-Route::resource('/manPower', 'hr\ManPowerController');
-
-//Sales Department
-Route::get('/ill', function() {
-    return view('sales.internetLeasedLines');
-});
-
-Route::get('/p2p', function() {
-    return view('sales.p2p');
-});
-
-Route::get('/approvalnote', function() {
-    return view('sales.approvalNote');
-});
-
-//VOIP Department
-Route::get('/voip', function() {
-    return view('voip.voipForm');
-});
-
-//Inventory Department
-Route::get('/inventory', function() {
-    return view('inventory.purchaseRequest');
-});
-
-//Document Approval 
-Route::get('/documentApproval', function() {
-    return view('document_approval.documentApproval');
-});
-
-Route::resource('/approvalNote', 'sales\ApprovalNoteController');
-Route::resource('/internetLeasedLines', 'sales\InternetLeasedLinesController');
-Route::resource('/p2p', 'sales\P2pController');
-
-//VOIP Department
-Route::resource('/voipForm', 'voip\VoipFormController');
-
-//Inventory Department
-Route::resource('/inventory', 'inventory\PurchaseRequestController');
-
-//Document Approval 
-Route::resource('/documentApproval', 'document_approval\DocumentApprovalController');
-
+Route::post('/transferJob', 'noc\JobController@transferJob');
 
 //Default password generator
 Route::get('/pswd', function(){

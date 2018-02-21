@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CcExtension extends Model
+class Engineer extends Model
 {
-    protected $table = 'cc_extensions';
+    protected $table = 'engineers';
 	public $primaryKey = 'id';
 	public $timeStamps = true;
 }

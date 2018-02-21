@@ -24,7 +24,15 @@
 					                </select>
 					            </td>
 					            <td>
-					                <input type="text" name="consumer_id" class="form-control" required="true">
+					                <select class="selectpicker" data-live-search="true" title="Select Consumer" name="consumer_id">
+						            	@if ($consumers != null)
+                                            @foreach ($consumers as $consumer1)
+                                                <option value="{{$consumer1->name}}" data-tokens="{{$consumer1->name}}">
+                                                	{{$consumer1->name}}
+                                                </option>
+                                            @endforeach
+                                        @endif
+					            	</select>
 					            </td>
 					            <td><input type="submit" class="btn btn-primary form-control" name="submit_name" value="GO"></td>
 					        </tr>
@@ -90,14 +98,33 @@
 	                            </tr>
 	                            <tr class="form-group">
 						            <td>
-						                <select name="assign_job" class="form-control">
+						                <select name="assign_job" class="form-control" id="assign_job">
 						                    <option value="">Assign Job</option>
 						                    <option value="engineer">Engineer</option>
 						                    <option value="team">Team</option>
 						                </select>
 						            </td>
-						            <td>
-						                <input type="text" name="assign_to" class="form-control" required="true">
+						            <td id="engineer">
+						            	<select class="selectpicker" data-live-search="true" title="Select Engineer" name="assign_to_engineer">
+							            	@if ($engineers != null)
+                                                @foreach ($engineers as $engineer)
+                                                    <option value="{{$engineer->name}}" data-tokens="{{$engineer->name}}">
+                                                    	{{$engineer->name}}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+						            	</select>
+						            </td>
+						            <td id="team">
+						            	<select class="selectpicker" data-live-search="true" title="Select Team" name="assign_to_team">
+							            	@if ($teams != null)
+                                                @foreach ($teams as $team)
+                                                    <option value="{{$team->team}}" data-tokens="{{$team->team}}">
+                                                    	{{$team->team}}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+						            	</select>
 						            </td>
 						        </tr>
 						        <tr class="form-group">
@@ -108,7 +135,9 @@
 						        </tr>
 	                            <input type="text" name="get_consumer_type" hidden="true" value="{{$consumer->type}}">
 
-	                            <input type="string" name="generation_date" id="generation_date" readonly="true" hidden="true">
+	                            <input type="text" name="generation_date" id="generation_date" readonly="true" hidden="true">
+
+	                            <input type="text" name="assigned_to_level" id="asssigned_to_level" value="2" readonly="true" hidden="true">
 	                            
 	                            <script type="text/javascript">
 	                            	$(document).ready(function() {
@@ -130,4 +159,26 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#engineer").hide()
+		$("#team").hide()
+
+
+		$("#assign_job").change(function(){
+			var assign_job = $(this).val()
+			if(assign_job == "engineer")
+			{
+				$("#engineer").show()
+				$("#team").hide()
+			}
+			else
+			{
+				$("#engineer").hide()
+				$("#team").show()
+			}
+		})
+	})
+</script>
 @endsection

@@ -13,20 +13,15 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-
+    
     <!--jquery-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-    <script type="text/javascript">
-    $(function () {
-        $("#bank").change(function () {
-            if ($(this).val() == "other") {
-                $("#banklist").show();
-            } else {
-                $("#banklist").hide();
-            }
-        });
-    });
-</script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 </head>
 <body>
     <div id="app">
@@ -47,15 +42,6 @@
                         {{ config('app.name') }}
                     </a>
 
-                    <!--Side bar button-->
-                    @guest
-                    @else
-                        <div id="toggle-btn" onclick="toggleSidebar(this)">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                        </div>
-                    @endguest
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -72,9 +58,30 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                    Work Links <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="btn" href="{{ url('/newJobEntry') }}">Enter New Job</a>
+                                    </li>
+                                    <li>
+                                        <a class="btn" href="{{ url('listOnGoingJobs') }}">On-going Jobs</a>
+                                    </li>
+                                    <li>
+                                        <a class="btn" href="{{ url('listFinishedJobs') }}">Finished Jobs</a>
+                                    </li>
+                                    @if (auth()->user()->user_type == 'admin')
+                                        <li>
+                                            <a class="btn" href="{{ url('/addNewConsumer') }}">New Consumer</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ ucwords(Auth::user()->name) }} <span class="caret"></span>
                                 </a>
-
                                 <ul class="dropdown-menu">
                                     @if (Auth::user()->user_type == 'super admin')
                                        <li>
@@ -111,38 +118,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            @if (auth()->user()->user_type == 'super admin')
-                                @include('sidebar.superAdmin')
-                            @else
-                                @switch(auth()->user()->department)
-                                    @case('cc')
-                                        @include('sidebar.cc')
-                                        @break
-                                    
-                                    @case('hr')
-                                        @include('sidebar.hr')
-                                        @break
-
-                                    @case('inventory')
-                                        @include('sidebar.inventory')
-                                        @break
-
-                                    @case('noc')
-                                        @include('sidebar.noc')
-                                        @break
-
-                                    @case('sales')
-                                        @include('sidebar.sales')
-                                        @break
-                                    
-                                    @case('voip')
-                                        @include('sidebar.voip')
-                                        @break                
-                                    @default
-                                            Default case...
-                                @endswitch
-                                
-                            @endif
                         @endguest
                     </ul>
                 </div>
