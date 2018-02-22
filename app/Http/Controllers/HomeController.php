@@ -40,6 +40,6 @@ class HomeController extends Controller
             $profile->save();
         }
         $profile = Profile::find($user_id);
-        return view('home')->with('profile', $profile);
+        return redirect('/newJobEntry');
     }
 }
