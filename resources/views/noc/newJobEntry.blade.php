@@ -73,7 +73,7 @@
 							    <tr class="form-group">
 							        <td><label>Address</label></td>
 							        <td>
-							            <textarea type="text" name="address" class="form-control" required="true" readonly="true">	{{ucwords($consumer->address)}}
+							            <textarea type="text" name="address" class="form-control" required="true" readonly="true">{{ucwords($consumer->address)}}
 							            </textarea>
 							        </td>
 							    </tr>
