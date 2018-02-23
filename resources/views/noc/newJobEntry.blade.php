@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="container">
-	<div class="row">
+	<div class="row"> 
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
 				<div class="panel-heading text-center">
@@ -16,19 +16,29 @@
 					    <table class="table table-striped">
 					        <tr class="form-group">
 					            <td>
-					                <select name="consumer_type" class="form-control" required="true">
-					                    <option value="">Select</option>
+					                <select name="consumer_type" class="selectpicker form-control" id="consumer_type" title="Select Consumer Type" required="true">
 					                    <option value="partner">Partner</option>
 					                    <option value="customer">Customer</option>
 					                    <option value="reseller">Reseller</option>
 					                </select>
 					            </td>
-					            <td>
-					                <select class="selectpicker" data-live-search="true" title="Select Consumer" name="consumer_id">
+					            <td id="partner">
+					                <select class="selectpicker" data-live-search="true" title="Select Consumer Name" name="consumer_id">
 						            	@if ($consumers != null)
                                             @foreach ($consumers as $consumer1)
                                                 <option value="{{$consumer1->name}}" data-tokens="{{$consumer1->name}}">
                                                 	{{$consumer1->name}}
+                                                </option>
+                                            @endforeach
+                                        @endif
+					            	</select>
+					            </td>
+					            <td id="customer">
+					                <select class="selectpicker" data-live-search="true" title="Select Circuit id" name="circuit_id">
+						            	@if ($consumers != null)
+                                            @foreach ($consumers as $consumer2)
+                                                <option value="{{$consumer2->circuit_id}}" data-tokens="{{$consumer2->circuit_id}}">
+                                                	{{$consumer2->circuit_id}}
                                                 </option>
                                             @endforeach
                                         @endif
@@ -98,8 +108,7 @@
 	                            </tr>
 	                            <tr class="form-group">
 						            <td>
-						                <select name="assign_job" class="form-control" id="assign_job">
-						                    <option value="">Assign Job</option>
+						                <select name="assign_job" class="selectpicker form-control" id="assign_job" title="Assign Job To">
 						                    <option value="engineer">Engineer</option>
 						                    <option value="team">Team</option>
 						                </select>
@@ -119,8 +128,8 @@
 						            	<select class="selectpicker" data-live-search="true" title="Select Team" name="assign_to_team">
 							            	@if ($teams != null)
                                                 @foreach ($teams as $team)
-                                                    <option value="{{$team->team}}" data-tokens="{{$team->team}}">
-                                                    	{{$team->team}}
+                                                    <option value="{{$team->department}}" data-tokens="{{$team->department}}">
+                                                    	{{ucwords($team->department)}}
                                                     </option>
                                                 @endforeach
                                             @endif
@@ -177,6 +186,27 @@
 			{
 				$("#engineer").hide()
 				$("#team").show()
+			}
+		})
+	})
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#partner").hide()
+		$("#customer").hide()
+
+
+		$("#consumer_type").change(function(){
+			var consumer_type = $(this).val()
+			if(consumer_type != "customer")
+			{
+				$("#partner").show()
+				$("#customer").hide()
+			}
+			else
+			{
+				$("#partner").hide()
+				$("#customer").show()
 			}
 		})
 	})

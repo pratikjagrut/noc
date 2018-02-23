@@ -29,9 +29,7 @@
 									<th>Transferred To Level</th>
 									<th>Transferred To</th>
 									<th>Transferred By</th>
-									@if (Auth::user()->user_type == 'admin')
-										<th>Transfer</th>
-									@endif
+									<th>Transfer</th>
 									<th>Close</th>
 								</tr>
 								@foreach ($jobs as $job)
@@ -53,12 +51,10 @@
 										<td>{{ucwords($job->transferred_to_level)}}</td>
 										<td>{{ucwords($job->transferred_to)}}</td>
 										<td>{{ucwords($job->transferred_by)}}</td>
-										@if (Auth::user()->user_type == 'admin')
-											<td>
-												<button class="btn btn-info btn-sm" style="color: white;" data-toggle="modal" data-target="#transfer_job" id="{{$job->ticket}}" onclick="transferJob(this.id)">Transfer
-												</button>
-											</td>
-										@endif
+										<td>
+											<button class="btn btn-info btn-sm" style="color: white;" data-toggle="modal" data-target="#transfer_job" id="{{$job->ticket}}" onclick="transferJob(this.id)">Transfer
+											</button>
+										</td>
 										<td>
 											<button class="btn btn-danger btn-sm" style="color: white;" data-toggle="modal" data-target="#close_job" id="{{$job->ticket}}/{{$job->generation_date_timestamp}}" onclick="clck(this.id)">X</button>
 										</td>

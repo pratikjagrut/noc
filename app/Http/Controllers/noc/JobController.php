@@ -10,6 +10,7 @@ use App\NocOngoingJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\User;
 
 class JobController extends Controller
 {   
@@ -20,11 +21,18 @@ class JobController extends Controller
     		return redirect('login')->with('error', 'Login First');
     	else
     	{  
-            $engineers = Engineer::all();
-            $teams = DB::table('engineers')
+            //$engineers = Engineer::all();
+            $engineers = User::all();
+            /*$teams = DB::table('engineers')
                         ->select('team as team')
                         ->groupBy('team')
                         ->get();
+            */
+            $teams = DB::table('users')
+                        ->select('department as department')
+                        ->where('department', 'noc')
+                        ->groupBy('department')
+                        ->get();            
             $consumers = NocConsumer::all();
             return view('noc.newJobEntry', [
                                                 'consumer' => null,
@@ -44,17 +52,32 @@ class JobController extends Controller
         {
         	$consumer_type = $request->input('consumer_type');
         	$consumer_id = strtolower($request->input('consumer_id'));
+            $circuit_id = $request->input('circuit_id');
 
-        	$consumer = NocConsumer::where([ 
+            if($consumer_id != null)
+        	    $consumer = NocConsumer::where([ 
                                                ['name', $consumer_id],
         	                                   ['type', $consumer_type]
         	                               ])
                                             ->first();
-            $engineers = Engineer::all();
-            $teams = DB::table('engineers')
+            else
+                $consumer = NocConsumer::where([ 
+                                               ['circuit_id', $circuit_id],
+                                               ['type', $consumer_type]
+                                           ])
+                                            ->first();                                
+            //$engineers = Engineer::all();
+            $engineers = User::all();
+            /*$teams = DB::table('engineers')
                         ->select('team as team')
                         ->groupBy('team')
                         ->get();
+            */
+            $teams = DB::table('users')
+                        ->select('department as department')
+                        ->where('department', 'noc')
+                        ->groupBy('department')
+                        ->get();            
             $consumers = NocConsumer::all();
         	if($consumer == null)
         	    return redirect('newJobEntry')->with('error', 'No customer found!');
