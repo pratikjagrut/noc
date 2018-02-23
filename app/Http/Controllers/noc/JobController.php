@@ -60,12 +60,14 @@ class JobController extends Controller
         	                                   ['type', $consumer_type]
         	                               ])
                                             ->first();
-            else
-                $consumer = NocConsumer::where([ 
+            elseif($circuit_id != null)
+                $consumer = NocConsumer::where([
                                                ['circuit_id', $circuit_id],
                                                ['type', $consumer_type]
                                            ])
                                             ->first();                                
+            else
+                $consumer = null;
             //$engineers = Engineer::all();
             $engineers = User::all();
             /*$teams = DB::table('engineers')
@@ -79,8 +81,9 @@ class JobController extends Controller
                         ->groupBy('department')
                         ->get();            
             $consumers = NocConsumer::all();
+            
         	if($consumer == null)
-        	    return redirect('newJobEntry')->with('error', 'No customer found!');
+        	    return redirect('newJobEntry')->with('error', 'No consumer found!');
         	else
         	    return view('noc.newJobEntry',[
                                                 'consumer' => $consumer,

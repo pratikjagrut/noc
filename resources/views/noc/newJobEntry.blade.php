@@ -37,9 +37,11 @@
 					                <select class="selectpicker" data-live-search="true" title="Select Circuit id" name="circuit_id">
 						            	@if ($consumers != null)
                                             @foreach ($consumers as $consumer2)
-                                                <option value="{{$consumer2->circuit_id}}" data-tokens="{{$consumer2->circuit_id}}">
-                                                	{{$consumer2->circuit_id}}
-                                                </option>
+                                                @if ($consumer2->circuit_id != null)
+                                                	<option value="{{$consumer2->circuit_id}}" data-tokens="{{$consumer2->circuit_id}}">
+                                                		{{$consumer2->circuit_id}}
+                                                	</option>
+                                                @endif
                                             @endforeach
                                         @endif
 					            	</select>
