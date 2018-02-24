@@ -33,12 +33,16 @@ class JobController extends Controller
                         ->where('department', 'noc')
                         ->groupBy('department')
                         ->get();            
-            $consumers = NocConsumer::all();
+            $partners = NocConsumer::where('type', 'partner')->get();
+            $customers = NocConsumer::where('type', 'customer')->get();
+            $resellers = NocConsumer::where('type', 'reseller')->get();
             return view('noc.newJobEntry', [
                                                 'consumer' => null,
                                                 'engineers' => $engineers,
                                                 'teams' => $teams,
-                                                'consumers' => $consumers
+                                                'partners' => $partners,
+                                                'customers' => $customers,
+                                                'resellers' => $resellers
                                            ]);
         }
     }
@@ -51,7 +55,7 @@ class JobController extends Controller
         else
         {
         	$consumer_type = $request->input('consumer_type');
-        	$consumer_id = strtolower($request->input('consumer_id'));
+        	$consumer_id = $request->input('consumer_id');
             $circuit_id = $request->input('circuit_id');
 
             if($consumer_id != null)
@@ -80,7 +84,9 @@ class JobController extends Controller
                         ->where('department', 'noc')
                         ->groupBy('department')
                         ->get();            
-            $consumers = NocConsumer::all();
+            $partners = NocConsumer::where('type', 'partner')->get();
+            $customers = NocConsumer::where('type', 'customer')->get();
+            $resellers = NocConsumer::where('type', 'reseller')->get();
             
         	if($consumer == null)
         	    return redirect('newJobEntry')->with('error', 'No consumer found!');
@@ -89,7 +95,9 @@ class JobController extends Controller
                                                 'consumer' => $consumer,
                                                 'engineers' => $engineers,
                                                 'teams' => $teams,
-                                                'consumers' => $consumers
+                                                'partners' => $partners,
+                                                'customers' => $customers,
+                                                'resellers' => $resellers
                                            ]);
         }	
     }

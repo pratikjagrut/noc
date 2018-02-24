@@ -23,11 +23,22 @@
 					                </select>
 					            </td>
 					            <td id="partner">
-					                <select class="selectpicker" data-live-search="true" title="Select Consumer Name" name="consumer_id">
-						            	@if ($consumers != null)
-                                            @foreach ($consumers as $consumer1)
-                                                <option value="{{$consumer1->name}}" data-tokens="{{$consumer1->name}}">
-                                                	{{$consumer1->name}}
+					                <select class="selectpicker" data-live-search="true" title="Select Partner Name" name="consumer_id">
+						            	@if (count($partners) > 0)
+                                            @foreach ($partners as $partner)
+                                                <option value="{{$partner->name}}" data-tokens="{{$partner->name}}">
+                                                	{{$partner->name}}
+                                                </option>
+                                            @endforeach
+                                        @endif
+					            	</select>
+					            </td>
+					            <td id="reseller">
+					                <select class="selectpicker" data-live-search="true" title="Select Reseller Name" name="consumer_id">
+						            	@if (count($resellers) > 0)
+                                            @foreach ($resellers as $reseller)
+                                                <option value="{{$reseller->name}}" data-tokens="{{$reseller->name}}">
+                                                	{{$reseller->name}}
                                                 </option>
                                             @endforeach
                                         @endif
@@ -35,11 +46,11 @@
 					            </td>
 					            <td id="customer">
 					                <select class="selectpicker" data-live-search="true" title="Select Circuit id" name="circuit_id">
-						            	@if ($consumers != null)
-                                            @foreach ($consumers as $consumer2)
-                                                @if ($consumer2->circuit_id != null)
-                                                	<option value="{{$consumer2->circuit_id}}" data-tokens="{{$consumer2->circuit_id}}">
-                                                		{{$consumer2->circuit_id}}
+						            	@if (count($customers) > 0)
+                                            @foreach ($customers as $customer)
+                                                @if ($customer->circuit_id != null)
+                                                	<option value="{{$customer->circuit_id}}" data-tokens="{{$customer->circuit_id}}">
+                                                		{{$customer->circuit_id}}
                                                 	</option>
                                                 @endif
                                             @endforeach
@@ -197,19 +208,27 @@
 	$(document).ready(function(){
 		$("#partner").hide()
 		$("#customer").hide()
-
+		$("#reseller").hide()
 
 		$("#consumer_type").change(function(){
 			var consumer_type = $(this).val()
-			if(consumer_type != "customer")
+			if(consumer_type == "partner")
 			{
 				$("#partner").show()
 				$("#customer").hide()
+				$("#reseller").hide()
 			}
-			else
+			if(consumer_type == "customer")
 			{
 				$("#partner").hide()
 				$("#customer").show()
+				$("#reseller").hide()
+			}
+			if(consumer_type == "reseller")
+			{
+				$("#partner").hide()
+				$("#customer").hide()
+				$("#reseller").show()
 			}
 		})
 	})
