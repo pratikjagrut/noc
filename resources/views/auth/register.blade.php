@@ -53,7 +53,10 @@
                             <label for="department" class="col-md-4 control-label">Department</label>
 
                             <div class="col-md-6">
-                                <input id="department" type="text" class="form-control" name="department" value="noc" readonly="true">
+                                <select name="department" class="selectpicker form-control">
+                                    <option value="noc">NOC</option>
+                                    <option value="cc">CC</option>
+                                </select>
                             </div>
                         </div>
                         
