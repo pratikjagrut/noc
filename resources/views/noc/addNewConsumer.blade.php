@@ -16,8 +16,7 @@
 					    <table class="table table-striped">
 					        <tr class="form-group">
 					            <td>
-					                <select name="consumer_type" class="form-control" required="true">
-					                    <option value="">Select Consumer</option>
+					                <select name="consumer_type" class="selectpicker form-control" required="true" title="Select Consumer Type">
 					                    <option value="partner">Partner</option>
 					                    <option value="customer">Customer</option>
 					                    <option value="reseller">Reseller</option>
@@ -31,7 +30,9 @@
 						@if ($consumers != null && count($consumers) > 0 )
 							<tr>
 								<th>Sr. No</th>
-								<th>Circuit Id</th>
+								@if ($consumer_type1 == 'customer')
+									<th>Circuit Id</th>
+								@endif
 								<th>Name</th>
 								<th>Address</th>
 								<th>Area</th>
@@ -42,7 +43,9 @@
 							@foreach ($consumers as $consumer)
 								<tr>
 									<td>{{$loop->iteration}}</td>
-									<td>{{$consumer->circuit_id}}</td>
+									@if ($consumer_type1 == 'customer')
+										<td>{{$consumer->circuit_id}}</td>
+									@endif
 									<td>{{ucwords($consumer->name)}}</td>
 									<td>{{ucwords($consumer->address)}}</td>
 									<td>{{ucwords($consumer->area)}}</td>
