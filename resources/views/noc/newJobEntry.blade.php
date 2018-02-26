@@ -23,7 +23,7 @@
 					                </select>
 					            </td>
 					            <td id="partner">
-					                <select class="selectpicker" data-live-search="true" title="Select Partner Name" name="consumer_id">
+					                <select class="selectpicker" data-live-search="true" title="Select Partner Name" name="partner_id">
 						            	@if (count($partners) > 0)
                                             @foreach ($partners as $partner)
                                                 <option value="{{$partner->name}}" data-tokens="{{$partner->name}}">
@@ -34,7 +34,7 @@
 					            	</select>
 					            </td>
 					            <td id="reseller">
-					                <select class="selectpicker" data-live-search="true" title="Select Reseller Name" name="consumer_id">
+					                <select class="selectpicker" data-live-search="true" title="Select Reseller Name" name="reseller_id">
 						            	@if (count($resellers) > 0)
                                             @foreach ($resellers as $reseller)
                                                 <option value="{{$reseller->name}}" data-tokens="{{$reseller->name}}">

@@ -55,7 +55,9 @@ class JobController extends Controller
         else
         {
         	$consumer_type = $request->input('consumer_type');
-        	$consumer_id = $request->input('consumer_id');
+        	$consumer_id = $request->input('partner_id');
+            if($consumer_id == null)
+                $consumer_id = $request->input('reseller_id');
             $circuit_id = $request->input('circuit_id');
             //$customer_name = $request->input('customer_name');
 
