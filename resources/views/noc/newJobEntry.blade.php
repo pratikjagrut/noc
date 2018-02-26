@@ -44,13 +44,18 @@
                                         @endif
 					            	</select>
 					            </td>
-					            <td id="customer">
-					                <select class="selectpicker" data-live-search="true" title="Select Circuit id" name="circuit_id">
+					            <td class="customer">
+					                <select class="selectpicker" data-live-search="true" title="Select Circuit id Or Name" name="circuit_id">
 						            	@if (count($customers) > 0)
                                             @foreach ($customers as $customer)
                                                 @if ($customer->circuit_id != null)
                                                 	<option value="{{$customer->circuit_id}}" data-tokens="{{$customer->circuit_id}}">
                                                 		{{$customer->circuit_id}}
+                                                	</option>
+                                                @endif
+                                                @if ($customer->name != null)
+                                                	<option value="{{$customer->name}}" data-tokens="{{$customer->name}}">
+                                                		{{$customer->name}}
                                                 	</option>
                                                 @endif
                                             @endforeach
@@ -207,7 +212,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#partner").hide()
-		$("#customer").hide()
+		$(".customer").hide()
 		$("#reseller").hide()
 
 		$("#consumer_type").change(function(){
@@ -215,19 +220,19 @@
 			if(consumer_type == "partner")
 			{
 				$("#partner").show()
-				$("#customer").hide()
+				$(".customer").hide()
 				$("#reseller").hide()
 			}
 			if(consumer_type == "customer")
 			{
 				$("#partner").hide()
-				$("#customer").show()
+				$(".customer").show()
 				$("#reseller").hide()
 			}
 			if(consumer_type == "reseller")
 			{
 				$("#partner").hide()
-				$("#customer").hide()
+				$(".customer").hide()
 				$("#reseller").show()
 			}
 		})

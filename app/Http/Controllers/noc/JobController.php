@@ -57,6 +57,7 @@ class JobController extends Controller
         	$consumer_type = $request->input('consumer_type');
         	$consumer_id = $request->input('consumer_id');
             $circuit_id = $request->input('circuit_id');
+            //$customer_name = $request->input('customer_name');
 
             if($consumer_id != null)
         	    $consumer = NocConsumer::where([ 
@@ -69,7 +70,18 @@ class JobController extends Controller
                                                ['circuit_id', $circuit_id],
                                                ['type', $consumer_type]
                                            ])
-                                            ->first();                                
+                                            ->orWhere([
+                                               ['name', $circuit_id],
+                                               ['type', $consumer_type]
+                                           ])
+                                            ->first();
+            /*elseif($customer_name != null)
+                $consumer = NocConsumer::where([
+                                               ['name', $customer_name],
+                                               ['type', $consumer_type]
+                                           ])
+                                            ->first();*/
+                                                                              
             else
                 $consumer = null;
             //$engineers = Engineer::all();
