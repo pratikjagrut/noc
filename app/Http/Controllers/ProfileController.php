@@ -170,7 +170,18 @@ class ProfileController extends Controller
                         $fileNameToStore = 'male.jpg';
                     else
                         $fileNameToStore = 'female.jpg';
-                    $profile->profile_pic = $fileNameToStore;
+                    if($profile->profile_pic != 'male.jpg' && $profile->profile_pic != 'female.jpg')
+                    {
+                        $oldPicPath = 'storage/profile_pics/'.$profile->profile_pic;
+                        if(File::delete($oldPicPath))
+                        {   
+                            $profile->profile_pic = $fileNameToStore;
+                        }
+                    }
+                    else
+                    {
+                       $profile->profile_pic = $fileNameToStore; 
+                    }
                     $profile->save();
                     return redirect('profile/'.$id.'/edit')->with('delete', 'PROFILE PIC REMOVED');
                 }
