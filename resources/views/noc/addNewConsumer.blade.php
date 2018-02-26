@@ -16,7 +16,8 @@
 					    <table class="table table-striped">
 					        <tr class="form-group">
 					            <td>
-					                <select name="consumer_type" class="selectpicker form-control" required="true" title="Select Consumer Type">
+					                <select name="consumer_type" class="form-control" required="true">
+					                	<option value="">Select Consumer Type</option>
 					                    <option value="partner">Partner</option>
 					                    <option value="customer">Customer</option>
 					                    <option value="reseller">Reseller</option>
