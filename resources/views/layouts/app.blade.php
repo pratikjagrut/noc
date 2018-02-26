@@ -72,7 +72,7 @@
                                     </li>
                                     @if (auth()->user()->user_type == 'admin')
                                         <li>
-                                            <a class="btn" href="{{ url('/addNewConsumer') }}">New Consumer</a>
+                                            <a href="{{ url('/addNewConsumer') }}">New Consumer</a>
                                         </li>
                                     @endif
                                 </ul>
