@@ -149,7 +149,18 @@ class ProfileController extends Controller
                     //upload image
                     $path = $request->file('profile_pic')->storeAs('public/profile_pics', $fileNameToStore);
                     //Upadte profile pic in database
-                    $profile->profile_pic = $fileNameToStore;
+                    if($profile->profile_pic != 'male.jpg' && $profile->profile_pic != 'female.jpg')
+                    {
+                        $oldPicPath = 'storage/profile_pics/'.$profile->profile_pic;
+                        if(File::delete($oldPicPath))
+                        {   
+                            $profile->profile_pic = $fileNameToStore;
+                        }
+                    }
+                    else
+                    {
+                       $profile->profile_pic = $fileNameToStore; 
+                    }
                     $profile->save();
                     return redirect('profile/'.$id.'/edit')->with('success', 'PROFILE PICTURE UPDATED');
                 }
