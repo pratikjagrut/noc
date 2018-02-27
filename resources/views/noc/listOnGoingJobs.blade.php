@@ -214,7 +214,7 @@
                                         @foreach ($engineers as $engineer)
                                             @if ($engineer->name != 'admin')
                                             	<option value="{{$engineer->name}}" data-tokens="{{$engineer->name}}">
-                                            		{{$engineer->name}}
+                                            		{{ucwords($engineer->name)}}
                                             	</option>
                                             @endif
                                         @endforeach
