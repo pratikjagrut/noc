@@ -212,9 +212,11 @@
 				            	<select class="selectpicker form-control" data-live-search="true" title="Select Engineer" name="assign_to_engineer">
 					            	@if ($engineers != null)
                                         @foreach ($engineers as $engineer)
-                                            <option value="{{$engineer->name}}" data-tokens="{{$engineer->name}}">
-                                            	{{$engineer->name}}
-                                            </option>
+                                            @if ($engineer->name != 'admin')
+                                            	<option value="{{$engineer->name}}" data-tokens="{{$engineer->name}}">
+                                            		{{$engineer->name}}
+                                            	</option>
+                                            @endif
                                         @endforeach
                                     @endif
 				            	</select>
