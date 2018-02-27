@@ -21,9 +21,13 @@ class AdminRightsController extends Controller
             if(auth()->user()->user_type != 'admin')
                 return redirect('/newJobEntry')->with('error', 'Unauthorised Access!');
             else
-            {
+           {    
+                $users = User::all();
                 $admins = User::where('user_type', 'admin')->get();
-                return view('noc.admin_pages.adminRights')->with('admins', $admins);
+                return view('noc.admin_pages.adminRights', [
+                                                                'admins' => $admins,
+                                                                'users' => $users
+                                                           ]);
             }
         }
     }
@@ -115,11 +119,15 @@ class AdminRightsController extends Controller
                 //Delete Account
                 else
                 {
-                    if(User::where('employee_id', $employee_id)->delete() && 
-                       Profile::where('employee_id', $employee_id)->delete())
-                        return redirect('/adminRights')->with('delete', 'Account Deleted');
+                    if(User::where('employee_id', $employee_id)->delete())
+                    {
+                        if(Profile::where('employee_id', $employee_id)->delete())
+                            return redirect('/adminRights')->with('delete', 'Account Deleted.');
+                        else
+                           return redirect('/adminRights')->with('error', 'Users profile does not exist.'); 
+                    }
                     else
-                        return redirect('/adminRights')->with('error', 'Something went wrong or employee id does not exists or users profile does not exist');
+                        return redirect('/adminRights')->with('error', 'User does not exists.');
                 }
             }   
         }   

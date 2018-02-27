@@ -15,7 +15,7 @@
 								<tr class="form-group">
 									<td><label>Select Action: </label></td>
 									<td>
-										<select name="action" class="form-control" required="true">
+										<select name="action" class="selectpicker form-control" required="true" title="Select Action">
 											<option value="assignAdminRights">
 												Assign Admin Rights
 											</option>
@@ -31,7 +31,15 @@
 								<tr class="form-group">
 									<td><label>Enter Employee Id: </label></td>
 									<td>
-										<input type="text" class="form-control" name="employee_id" required="true">
+										<select class="selectpicker form-control" data-live-search="true" title="Name / Employee Id / Email Id" name="employee_id">
+							            	@if (count($users) > 0)
+	                                            @foreach ($users as $user)
+	                                                <option value="{{$user->employee_id}}" data-tokens="{{$user->name}} {{$user->employee_id}} {{$user->email}}">
+	                                                	{{ucwords($user->name)}} / {{$user->employee_id}} / {{$user->email}}
+	                                                </option>
+	                                            @endforeach
+	                                        @endif
+						            	</select>
 									</td>
 								</tr>
 								<tr class="form-group">
