@@ -56,6 +56,7 @@
                                 <select name="department" class="selectpicker form-control" title="Select Department">
                                     <option value="noc">NOC</option>
                                     <option value="cc">CC</option>
+                                    <option value="field team">Field Team</option>
                                 </select>
                             </div>
                         </div>

@@ -15,7 +15,7 @@ class AddLevelToNocOngoingJobs extends Migration
     {
         Schema::table('noc_ongoing_jobs', function($table){
             $table->integer('assigned_to_level')->nullable()->after('assign_to');
-            $table->integer('transferred_to_level')->nullable()->after('assigned_to_level');
+            $table->string('transferred_to_level')->nullable()->after('assigned_to_level');
             $table->string('transferred_to')->nullable()->after('transferred_to_level');
             $table->string('transferred_by')->nullable()->after('transferred_to');
         });

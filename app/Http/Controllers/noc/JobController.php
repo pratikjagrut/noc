@@ -178,16 +178,27 @@ class JobController extends Controller
             return redirect('/login')->with('error', 'Login First');
         else
         {
-            $engineers = Engineer::all();
-            $teams = DB::table('engineers')
+            //$engineers = Engineer::all();
+            $engineers = User::all();
+            /*$teams = DB::table('engineers')
                         ->select('team as team')
                         ->groupBy('team')
                         ->get();
+            */
+            $teams = DB::table('users')
+                        ->select('department as department')
+                        ->groupBy('department')
+                        ->get();
             $jobs = NocOngoingJob::orderBy('created_at', 'dsc')->get();
+            $fieldJobs = NocOngoingJob::where('transferred_to', 'field team')
+                                        ->orderBy('created_at', 'dsc')
+                                        ->get();
+                                        
             return view('noc.listOnGoingJobs',[
                                                 'engineers' => $engineers,
                                                 'teams' => $teams,
-                                                'jobs' => $jobs
+                                                'jobs' => $jobs,
+                                                'fieldJobs' => $fieldJobs
                                               ]);
                                             
         }
@@ -269,7 +280,13 @@ class JobController extends Controller
         else
         {
             $jobs = NocJob::orderBy('created_at', 'dsc')->paginate(20);
-            return view('noc.listFinishedJobs')->with('jobs', $jobs);
+            $fieldJobs = NocJob::where('transferred_to', 'field team')
+                                        ->orderBy('created_at', 'dsc')
+                                        ->paginate(20);
+            return view('noc.listFinishedJobs', [
+                                                    'jobs' => $jobs,
+                                                    'fieldJobs' => $fieldJobs
+                                                ]);
         }
     }
 
