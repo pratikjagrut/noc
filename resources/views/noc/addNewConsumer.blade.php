@@ -109,13 +109,13 @@
 							    <tr class="form-group">
 							        <td><label>Address</label></td>
 							        <td>
-							            <input type="text" name="address" class="form-control" required="true">
+							            <input type="text" name="address" class="form-control">
 							        </td>
 							    </tr>
 							    <tr class="form-group">
 							        <td><label>Area</label></td>
 							        <td>
-							            <input type="text" name="area" class="form-control" required="true">
+							            <input type="text" name="area" class="form-control">
 							        </td>
 							    </tr>
 							    <tr class="form-group">
