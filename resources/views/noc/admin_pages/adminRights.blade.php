@@ -34,9 +34,11 @@
 										<select class="selectpicker form-control" data-live-search="true" title="Name / Employee Id / Email Id" name="employee_id">
 							            	@if (count($users) > 0)
 	                                            @foreach ($users as $user)
-	                                                <option value="{{$user->employee_id}}" data-tokens="{{$user->name}} {{$user->employee_id}} {{$user->email}}">
-	                                                	{{ucwords($user->name)}} / {{$user->employee_id}} / {{$user->email}}
-	                                                </option>
+	                                                @if ($user->name != 'admin')
+	                                                	<option value="{{$user->employee_id}}" data-tokens="{{$user->name}} {{$user->employee_id}} {{$user->email}}">
+	                                                		{{ucwords($user->name)}} / {{$user->employee_id}} / {{$user->email}}
+	                                                	</option>
+	                                                @endif
 	                                            @endforeach
 	                                        @endif
 						            	</select>
