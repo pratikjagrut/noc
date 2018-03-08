@@ -194,7 +194,7 @@ class ProfileController extends Controller
                 if($new_password != null)
                 {
                     $user  = User::find($id);
-                    $user->password = Hash::make(strtolower($new_password));
+                    $user->password = Hash::make($new_password);
                     $user->save();
                     return redirect('profile/'.$id.'/edit')->with('success', 'PASSOWRD UPDATED');
                 }
