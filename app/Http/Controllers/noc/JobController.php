@@ -300,4 +300,30 @@ class JobController extends Controller
             return view('noc.exportFinishedJobs')->with('jobs', $jobs);
         }
     }
+
+    public function deleteFinishedJobs(Request $request)
+    {
+        if(Auth::guest())
+            return redirect('/login')->with('error', 'Login First');
+        else
+        {
+            $deleteJobs = $request->input('delete');
+            $delete = false;
+
+            if(count($deleteJobs) > 0)
+            {
+                for ($i = 0; $i < count($deleteJobs); $i++) 
+                { 
+                    $job = NocJob::find($deleteJobs[$i]);
+                    $job->delete();
+                    $delete = true;
+                }
+            }
+
+            if($delete)
+                return redirect('/listFinishedJobs')->with('success', 'Jobs deleted successfuly');
+            else
+                return redirect('/listFinishedJobs')->with('error', 'Select at least 1 job to delete');
+        }
+    }
 }

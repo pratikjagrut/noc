@@ -50,6 +50,7 @@ Route::get('/setConsumer', 'noc\ConsumerController@setConsumer');
 Route::post('/registerNewConsumer', 'noc\ConsumerController@registerNewConsumer');
 Route::get('/listConsumer', 'noc\ConsumerController@listConsumer');
 Route::post('/transferJob', 'noc\JobController@transferJob');
+Route::post('/deleteFinishedJobs', 'noc\JobController@deleteFinishedJobs');	
 
 //Default password generator
 Route::get('/pswd', function(){
