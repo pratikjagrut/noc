@@ -48,7 +48,7 @@
 											<td>{{ucwords($job->city)}}</td>
 											<td>{{ucwords($job->state)}}</td>
 											<td>{{$job->contact_details}}</td>
-											<td>{{$job->created_at}}</td>
+											<td>{{$job->generation_date}}</td>
 											<td>{{$job->close_date}}</td>
 											<td>{{$job->total_time}}</td>
 											<td>{{ucwords($job->case_reason)}}</td>

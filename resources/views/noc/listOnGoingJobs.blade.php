@@ -257,7 +257,7 @@
 	  		var data = clicked_id.split("/")
 	  	    document.getElementById("printTicket").value = data[0]
 	  	    var currentdate = new Date(); 
-	  	    var month = ""+currentdate.getMonth()+1
+	  	    var month = ""+(currentdate.getMonth()+1)
 	  	    var date = currentdate.getDate()
 	  	    if(currentdate.getDate() < 10)
 	  	    	date = "0"+date
@@ -272,7 +272,7 @@
 			var date1 = currentdate
 			var date2 = data[1];
 			var difference = date1.getTime() - date2;
-
+			
 	        var daysDifference = Math.floor(difference/1000/60/60/24)
 	        difference -= daysDifference*1000*60*60*24
 
