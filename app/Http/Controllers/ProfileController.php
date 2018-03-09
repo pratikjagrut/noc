@@ -203,7 +203,7 @@ class ProfileController extends Controller
             }
         }
         else
-            return redirect('profile/'.$id.'/edit')->with('error', 'password do not match');    
+            return redirect('profile/'.$id.'/edit')->with('error', 'SORRY! WRONG PASSWORD');    
     }
 
     /**

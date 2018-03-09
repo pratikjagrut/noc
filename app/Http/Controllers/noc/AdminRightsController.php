@@ -131,5 +131,23 @@ class AdminRightsController extends Controller
                 }
             }   
         }   
+    }
+
+    public function changeEmployeePswd(Request $request)
+    {
+        if(Auth::guest())
+            return redirect('/login')->with('error', 'Login First');
+        else
+        {
+            $employee_id = $request->input('employee_id');
+            $new_password = $request->input('new_password');
+            $employee = User::where('employee_id', $employee_id)->first();
+            $employee->password = Hash::make($new_password);
+            
+            if($employee->save())
+                return redirect('/adminRights')->with('success', 'Password Changed.');
+            else
+                return redirect('/adminRights')->with('error', 'something went wrong');
+        }
     }    
 }

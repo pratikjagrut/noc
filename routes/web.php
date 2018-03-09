@@ -33,7 +33,8 @@ Route::resource('profile', 'ProfileController');
 
 //NOC Department Routes
 Route::get('/adminRights', 'noc\AdminRightsController@index');	
-Route::get('/performAdminRights', 'noc\AdminRightsController@performAdminRights');
+Route::post('/performAdminRights', 'noc\AdminRightsController@performAdminRights');
+Route::post('/changeEmployeePswd', 'noc\AdminRightsController@changeEmployeePswd');
 //Route::get('/grantAdminRights', 'noc\AdminRightsController@grantAdminRights');
 //Route::get('/removeAdminRights', 'noc\AdminRightsController@removeAdminRights');
 //Route::get('/deleteAccount', 'noc\AdminRightsController@deleteAccount');
@@ -50,7 +51,7 @@ Route::get('/setConsumer', 'noc\ConsumerController@setConsumer');
 Route::post('/registerNewConsumer', 'noc\ConsumerController@registerNewConsumer');
 Route::get('/listConsumer', 'noc\ConsumerController@listConsumer');
 Route::post('/transferJob', 'noc\JobController@transferJob');
-Route::post('/deleteFinishedJobs', 'noc\JobController@deleteFinishedJobs');	
+Route::post('/deleteFinishedJobs', 'noc\JobController@deleteFinishedJobs');
 
 //Default password generator
 Route::get('/pswd', function(){
